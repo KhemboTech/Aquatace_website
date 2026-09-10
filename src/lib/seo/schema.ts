@@ -67,7 +67,13 @@ export function buildBranchSchema(branch: BranchInfo, nearbyAreas: string[]) {
   };
 }
 
-export function buildOrganizationSchema() {
+// Below this many real reviews, an average is too easily swung by one or two
+// data points to publish as a trustworthy public signal — omit the field
+// rather than show a rating that isn't yet representative.
+const MIN_REVIEWS_FOR_SCHEMA = 3;
+
+export function buildOrganizationSchema(reviewsSummary?: { count: number; avg: number }) {
+  const showRating = !!reviewsSummary && reviewsSummary.count >= MIN_REVIEWS_FOR_SCHEMA;
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -84,6 +90,18 @@ export function buildOrganizationSchema() {
       contactType: "customer service",
       areaServed: "KE",
     },
+    // Sourced only from real, verified customer reviews (reviews.is_seed = false) —
+    // never the fabricated placeholder rows used to pad the public list. See
+    // getRealReviewsSummary in reviews.functions.ts.
+    ...(showRating
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: reviewsSummary.avg.toFixed(1),
+            reviewCount: reviewsSummary.count,
+          },
+        }
+      : {}),
   };
 }
 

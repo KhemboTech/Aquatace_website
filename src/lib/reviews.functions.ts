@@ -99,6 +99,20 @@ export const listReviews = createServerFn({ method: "GET" })
     };
   });
 
+// Real reviews only — no seed fallback. Used for schema.org AggregateRating
+// markup, which must reflect genuine customer feedback, never the fabricated
+// placeholder rows used to pad the public list before real reviews exist.
+export const getRealReviewsSummary = createServerFn({ method: "GET" }).handler(
+  async (): Promise<ReviewsSummary> => {
+    const db = getDb();
+    const { rows } = await db.query<{ count: string; avg: string | null }>(
+      `SELECT COUNT(*)::text AS count, AVG(rating)::text AS avg
+       FROM reviews WHERE is_seed = false`,
+    );
+    return { count: parseInt(rows[0]?.count ?? "0", 10), avg: parseFloat(rows[0]?.avg ?? "0") };
+  },
+);
+
 const CreateReviewSchema = z.object({
   order_number: z.string().trim().max(50).optional(),
   customer_name: z.string().trim().min(2).max(120),
