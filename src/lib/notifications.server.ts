@@ -82,9 +82,9 @@ async function enqueueEmail(payload: {
   idempotencyKey: string;
 }): Promise<void> {
   if (!payload.recipientEmail) return;
-  // The previous email pathway (Lovable Cloud's transactional email queue, backed by
-  // Supabase) no longer exists post-migration. No SMTP replacement is configured yet,
-  // so this is a no-op — order creation still succeeds, it just doesn't email anyone.
+  // The previous transactional email pathway no longer exists post-migration.
+  // No SMTP replacement is configured yet, so this is a no-op — order creation
+  // still succeeds, it just doesn't email anyone.
   // Wire up real delivery here (e.g. nodemailer + SMTP_* env vars) when needed.
   console.warn(`[email skipped] ${payload.templateName} -> ${payload.recipientEmail}`);
 }

@@ -1,4 +1,4 @@
--- Plain-Postgres schema for the Aquatace app (no Supabase).
+-- Plain-Postgres schema for the Aquatace app.
 -- Run this once against a fresh database, then db/data_dump.sql for existing data,
 -- then scripts/create-admin.mjs to create the first admin login.
 
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS reviews (
   UNIQUE (order_id)
 );
 
--- Replaces Supabase Auth entirely: one row per admin login.
+-- One row per admin login.
 CREATE TABLE IF NOT EXISTS admin_users (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
   email TEXT NOT NULL UNIQUE,
