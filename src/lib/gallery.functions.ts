@@ -64,7 +64,13 @@ export const adminListGalleryImages = createServerFn({ method: "GET" })
   });
 
 const GalleryInputSchema = z.object({
-  imageUrl: z.string().trim().url(),
+  // Uploaded images are served as relative paths (e.g. /media/gallery/xxx.jpg, see
+  // api.media.upload.ts), not absolute URLs, so z.string().url() rejects every real value.
+  imageUrl: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((v) => v.startsWith("/") || /^https?:\/\//.test(v), "Invalid image URL"),
   imagePath: z.string().trim().max(500).optional().or(z.literal("")),
   altText: z.string().trim().max(200).default(""),
   caption: z.string().trim().max(500).optional().or(z.literal("")),

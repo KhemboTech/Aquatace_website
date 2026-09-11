@@ -87,7 +87,16 @@ const ProductInputSchema = z.object({
   specs: z.array(SpecSchema).max(20).default([]),
   featured: z.boolean().default(false),
   badge: z.string().trim().max(50).optional().or(z.literal("")),
-  imageUrl: z.string().url().optional().or(z.literal("")),
+  // Images are served from local storage as relative paths (e.g. /media/products/xxx.jpg,
+  // see api.media.upload.ts) rather than absolute URLs, so z.string().url() rejects every
+  // real value — accept either an absolute http(s) URL or a site-relative path.
+  imageUrl: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((v) => v === "" || v.startsWith("/") || /^https?:\/\//.test(v), "Invalid image URL")
+    .optional()
+    .or(z.literal("")),
   imagePath: z.string().max(500).optional().or(z.literal("")),
   active: z.boolean().default(true),
   sortOrder: z.number().int().default(0),
