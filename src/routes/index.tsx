@@ -5,7 +5,6 @@ import { ArrowRight, Droplet, MessageCircle, Zap, Headphones, Truck, ShieldCheck
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ProductCard } from "@/components/ProductCard";
-import { ReviewsSection } from "@/components/ReviewsSection";
 import { waLink } from "@/lib/business";
 import { productsQueryOptions } from "@/lib/products.functions";
 import { GAS_CATEGORY_IMAGE_URL } from "@/assets/gas-category-image";
@@ -169,9 +168,6 @@ function Home() {
           </CardContent>
         </Card>
       </section>
-
-      {/* REVIEWS */}
-      <ReviewsSection />
     </div>
   );
 }
