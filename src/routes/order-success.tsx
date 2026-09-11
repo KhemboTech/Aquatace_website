@@ -212,9 +212,7 @@ function SuccessPage() {
           </CardContent>
         </Card>
 
-        {orderRow && (
-          <ReviewForm orderNumber={orderRow.order_number} customerName={orderRow.customer_name} />
-        )}
+        {orderRow && <ReviewForm />}
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Button asChild className="rounded-full">

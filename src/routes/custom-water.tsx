@@ -206,9 +206,7 @@ function CustomWaterPage() {
                   </a>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="rounded-full">
-                  <a href={`mailto:${business.email}?subject=${encodeURIComponent("Custom branded water enquiry")}&body=${encodeURIComponent(message)}`}>
-                    Email us instead
-                  </a>
+                  <a href={business.phoneHref}>Call us instead</a>
                 </Button>
               </div>
             </div>

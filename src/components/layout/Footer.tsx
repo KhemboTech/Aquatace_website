@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 import {
   Facebook,
   Instagram,
-  Mail,
   MapPin,
   Phone,
   Twitter,
@@ -130,12 +129,6 @@ export function Footer() {
                   className="hover:text-foreground"
                 >
                   WhatsApp us
-                </a>
-              </li>
-              <li className="flex items-start gap-3">
-                <Mail className="mt-0.5 h-4 w-4 shrink-0" />
-                <a href={business.emailHref} className="hover:text-foreground">
-                  {business.email}
                 </a>
               </li>
               <li className="flex items-start gap-3">

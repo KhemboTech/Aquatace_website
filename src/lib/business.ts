@@ -8,11 +8,19 @@ export const business = {
   phoneHref: "tel:+254707201072",
   whatsapp: "254707201072",
   whatsappHref: "https://wa.me/254707201072",
-  email: "orders@aquatacetcommodities.co.ke",
-  emailHref: "mailto:orders@aquatacetcommodities.co.ke",
   address: "Serving Marurui, Kihunguro, Membley & Ting'ang'a — Kenya",
   mapUrl: "https://maps.google.com/?q=Marurui,Nairobi,Kenya",
   hours: "Mon–Sun · 7:00 AM – 9:00 PM",
+  // Direct link to leave a review on the Aquatace Google Business Profile.
+  googleReviewUrl: "https://g.page/r/CdGpOYg3xuB2EBM/review",
+  // Google is the single source of truth for the public rating (checkout CTA and
+  // schema.org AggregateRating both read this) — we no longer average our own
+  // self-collected reviews. Update these two numbers by hand whenever they move
+  // on the Business Profile (last checked 2026-09-11: 4.9 from 24 reviews).
+  googleRating: {
+    value: 4.9,
+    count: 24,
+  },
   offer: {
     title: "10% Discount + Free Delivery",
     areas: "Membley, Marurui & Kihunguro",

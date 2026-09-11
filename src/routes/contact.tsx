@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -58,7 +58,6 @@ function Contact() {
           {[
             { Icon: Phone, title: "Call us", value: business.phone, href: business.phoneHref },
             { Icon: MessageCircle, title: "WhatsApp", value: business.phone, href: waLink("Hi Aquatace, I have a question.") },
-            { Icon: Mail, title: "Email", value: business.email, href: business.emailHref },
             { Icon: MapPin, title: "Visit us", value: business.address, href: business.mapUrl },
           ].map((c) => (
             <a key={c.title} href={c.href} target={c.title === "WhatsApp" || c.title === "Visit us" ? "_blank" : undefined} rel="noreferrer"

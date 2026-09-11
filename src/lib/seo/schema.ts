@@ -67,13 +67,7 @@ export function buildBranchSchema(branch: BranchInfo, nearbyAreas: string[]) {
   };
 }
 
-// Below this many real reviews, an average is too easily swung by one or two
-// data points to publish as a trustworthy public signal — omit the field
-// rather than show a rating that isn't yet representative.
-const MIN_REVIEWS_FOR_SCHEMA = 3;
-
-export function buildOrganizationSchema(reviewsSummary?: { count: number; avg: number }) {
-  const showRating = !!reviewsSummary && reviewsSummary.count >= MIN_REVIEWS_FOR_SCHEMA;
+export function buildOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -82,7 +76,6 @@ export function buildOrganizationSchema(reviewsSummary?: { count: number; avg: n
     url: SITE_URL,
     logo: `${SITE_URL}${LOGO_MASTER_URL}`,
     telephone: business.phoneHref.replace("tel:", ""),
-    email: business.email,
     ...(REAL_SOCIAL_LINKS.length > 0 ? { sameAs: REAL_SOCIAL_LINKS } : {}),
     contactPoint: {
       "@type": "ContactPoint",
@@ -90,18 +83,13 @@ export function buildOrganizationSchema(reviewsSummary?: { count: number; avg: n
       contactType: "customer service",
       areaServed: "KE",
     },
-    // Sourced only from real, verified customer reviews (reviews.is_seed = false) —
-    // never the fabricated placeholder rows used to pad the public list. See
-    // getRealReviewsSummary in reviews.functions.ts.
-    ...(showRating
-      ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: reviewsSummary.avg.toFixed(1),
-            reviewCount: reviewsSummary.count,
-          },
-        }
-      : {}),
+    // Sourced from the Aquatace Google Business Profile, not our own DB — see
+    // business.googleRating.
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: business.googleRating.value.toFixed(1),
+      reviewCount: business.googleRating.count,
+    },
   };
 }
 

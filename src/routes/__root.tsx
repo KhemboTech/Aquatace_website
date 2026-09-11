@@ -25,7 +25,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { Button } from "@/components/ui/button";
 import { buildOrganizationSchema } from "@/lib/seo/schema";
 import { SITE_URL } from "@/lib/seo/config";
-import { getRealReviewsSummary } from "@/lib/reviews.functions";
 
 function NotFoundComponent() {
   return (
@@ -81,10 +80,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   loader: async ({ context }) => {
     await context.queryClient.ensureQueryData(productsQueryOptions).catch(() => []);
-    const reviewsSummary = await getRealReviewsSummary().catch(() => undefined);
-    return { reviewsSummary };
   },
-  head: ({ loaderData }) => ({
+  head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -119,7 +116,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Shop water refills, bottled water, 6kg & 13kg cooking gas and electronics. Delivery across Marurui, Kihunguro, Membley and Ting'ang'a.",
       },
-      { "script:ld+json": buildOrganizationSchema(loaderData?.reviewsSummary) },
+      { "script:ld+json": buildOrganizationSchema() },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),
