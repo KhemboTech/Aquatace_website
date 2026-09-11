@@ -14,7 +14,7 @@ export const login = createServerFn({ method: "POST" })
   .handler(async ({ data }): Promise<{ token: string; email: string }> => {
     const db = getDb();
     const { rows } = await db.query<{ id: string; email: string; password_hash: string }>(
-      "SELECT id, email, password_hash FROM admin_users WHERE email = $1",
+      "SELECT id, email, password_hash FROM admin_users WHERE lower(email) = lower($1)",
       [data.email],
     );
     const user = rows[0];
