@@ -4,6 +4,7 @@ import {
   Instagram,
   MapPin,
   Phone,
+  Star,
   Twitter,
   MessageCircle,
   Clock,
@@ -157,6 +158,16 @@ export function Footer() {
                 </a>
               </Button>
             </div>
+            {/* Update the rating text here if it moves on Google */}
+            <a
+              href={business.googleReviewUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium hover:text-foreground"
+            >
+              <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+              4.9 on Google
+            </a>
           </div>
         </div>
 
