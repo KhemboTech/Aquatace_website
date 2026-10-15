@@ -72,6 +72,11 @@ function CountyPage() {
           Water, LPG Gas &amp; Electronics Delivery in {county.name} County
         </h1>
         <p className="mt-3 text-muted-foreground">{county.intro}</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Looking for water refill, gas supply or electronics delivery in, around, near or within{" "}
+          {county.name} County — or just searching "near me"? Aquatace delivers across {county.name}{" "}
+          County and its surrounding estates.
+        </p>
       </div>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">

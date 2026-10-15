@@ -71,6 +71,11 @@ function ServiceAreaPage() {
           Water Refill, Gas Supply &amp; Electronics Delivery in {area.name}
         </h1>
         <p className="mt-3 text-muted-foreground">{area.intro}</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Looking for water refill, gas supply or electronics delivery in, around, near or within{" "}
+          {area.name} — or just searching "near me"? Aquatace delivers to {area.name} and its
+          surrounding estates.
+        </p>
       </div>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_340px]">
