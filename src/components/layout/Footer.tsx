@@ -158,15 +158,19 @@ export function Footer() {
                 </a>
               </Button>
             </div>
-            {/* Update the rating text here if it moves on Google */}
             <a
               href={business.googleReviewUrl}
               target="_blank"
               rel="noreferrer"
+              aria-label={`Rate us on Google — currently ${business.googleRating.value.toFixed(1)} stars`}
               className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium hover:text-foreground"
             >
-              <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-              4.9 on Google
+              <span className="flex items-center gap-0.5 text-amber-400">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-amber-400" />
+                ))}
+              </span>
+              Rate us on Google · {business.googleRating.value.toFixed(1)}
             </a>
           </div>
         </div>

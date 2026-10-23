@@ -105,10 +105,10 @@ export const branchLocalContent: Record<string, BranchLocalContent> = {
       "Muchatha",
     ],
     areaNote:
-      "Ting'ang'a reaches Kiambu town and its immediate neighbourhoods — Ndumberi, Riabai, Kiambaa, Thindigua, Ruaka, Karuri and Muchatha.",
-    seoTitle: "Aquatace Ting'ang'a — Water Refill & Gas Supply in Kiambu",
+      "Ting'ang'a (also written Tinganga, without the apostrophes) reaches Kiambu town and its immediate neighbourhoods — Ndumberi, Riabai, Kiambaa, Thindigua, Ruaka, Karuri and Muchatha.",
+    seoTitle: "Aquatace Ting'ang'a (Tinganga) — Water Refill & Gas Supply in Kiambu",
     seoDescription:
-      "Need water refill, gas refill or gas supply in Kiambu? Aquatace's Ting'ang'a shop serves Kiambu town, Ndumberi, Riabai and Kiambaa with water refills and LPG cooking gas. Call or WhatsApp 0112 819 068.",
+      "Need water refill, gas refill or gas supply in Kiambu, Ting'ang'a or Tinganga? Aquatace's Ting'ang'a shop serves Kiambu town, Ndumberi, Riabai and Kiambaa with water refills and LPG cooking gas. Call or WhatsApp 0112 819 068.",
   },
 };
 

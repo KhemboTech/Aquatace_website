@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { branches, waLink } from "@/lib/business";
 import { getServiceArea, serviceAreas } from "@/lib/seo/geo";
-import { buildBreadcrumbSchema } from "@/lib/seo/schema";
+import { buildBreadcrumbSchema, buildServiceAreaSchema } from "@/lib/seo/schema";
 import { SITE_URL } from "@/lib/seo/config";
 
 export const Route = createFileRoute("/service-areas/$slug")({
@@ -23,6 +23,7 @@ export const Route = createFileRoute("/service-areas/$slug")({
         { property: "og:title", content: area.seoTitle },
         { property: "og:description", content: area.seoDescription },
         { property: "og:url", content: `${SITE_URL}/service-areas/${area.slug}` },
+        { "script:ld+json": buildServiceAreaSchema(area) },
         {
           "script:ld+json": buildBreadcrumbSchema([
             { name: "Home", path: "/" },
@@ -72,9 +73,9 @@ function ServiceAreaPage() {
         </h1>
         <p className="mt-3 text-muted-foreground">{area.intro}</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          Looking for water refill, gas supply or electronics delivery in, around, near or within{" "}
-          {area.name} — or just searching "near me"? Aquatace delivers to {area.name} and its
-          surrounding estates.
+          Looking for water refill, gas supply or electronics delivery in, at, near, around, within
+          or with {area.name} — or just searching "near me"? Aquatace delivers to {area.name} and
+          its surrounding estates.
         </p>
       </div>
 

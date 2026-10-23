@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { branches, waLink } from "@/lib/business";
 import { getCounty, getServiceArea } from "@/lib/seo/geo";
-import { buildBreadcrumbSchema } from "@/lib/seo/schema";
+import { buildBreadcrumbSchema, buildCountySchema } from "@/lib/seo/schema";
 import { SITE_URL } from "@/lib/seo/config";
 
 export const Route = createFileRoute("/locations/$slug")({
@@ -23,6 +23,7 @@ export const Route = createFileRoute("/locations/$slug")({
         { property: "og:title", content: county.seoTitle },
         { property: "og:description", content: county.seoDescription },
         { property: "og:url", content: `${SITE_URL}/locations/${county.slug}` },
+        { "script:ld+json": buildCountySchema(county) },
         {
           "script:ld+json": buildBreadcrumbSchema([
             { name: "Home", path: "/" },
@@ -73,9 +74,9 @@ function CountyPage() {
         </h1>
         <p className="mt-3 text-muted-foreground">{county.intro}</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          Looking for water refill, gas supply or electronics delivery in, around, near or within{" "}
-          {county.name} County — or just searching "near me"? Aquatace delivers across {county.name}{" "}
-          County and its surrounding estates.
+          Looking for water refill, gas supply or electronics delivery in, at, near, around, within
+          or with {county.name} County — or just searching "near me"? Aquatace delivers across{" "}
+          {county.name} County and its surrounding estates.
         </p>
       </div>
 

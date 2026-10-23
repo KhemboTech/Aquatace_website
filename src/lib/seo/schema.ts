@@ -3,8 +3,9 @@
 // <script type="application/ld+json"> tag automatically — see
 // @tanstack/react-router's headContentUtils.js).
 import type { BranchInfo } from "@/lib/business";
-import { business } from "@/lib/business";
+import { branches, business } from "@/lib/business";
 import type { Product } from "@/lib/products";
+import type { CountyPage, ServiceArea } from "./geo";
 import { LOGO_MASTER_URL } from "@/assets/logo";
 import { SITE_URL } from "./config";
 
@@ -43,11 +44,17 @@ export function productUrl(slug: string) {
  * branch delivers to — it is a service-area signal, not a claim of a branch there.
  */
 export function buildBranchSchema(branch: BranchInfo, nearbyAreas: string[]) {
+  // Lets a name like "Ting'ang'a" also match searches/snippets for "Tinganga" —
+  // schema.org's alternateName is the correct way to tell Google two spellings
+  // are the same entity, rather than relying on page text alone.
+  const plainName = branch.name.replace(/'/g, "");
+  const hasApostrophe = plainName !== branch.name;
   return {
     "@context": "https://schema.org",
     "@type": "Store",
     "@id": branchUrl(branch.slug),
     name: `Aquatace ${branch.name}`,
+    ...(hasApostrophe ? { alternateName: `Aquatace ${plainName}` } : {}),
     url: branchUrl(branch.slug),
     telephone: branch.phoneHref.replace("tel:", ""),
     address: {
@@ -112,6 +119,72 @@ export function buildProductSchema(product: Product) {
       availability: product.active ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       seller: { "@type": "Organization", name: business.name },
     },
+  };
+}
+
+/**
+ * "Near me" and proximity searches ("gas near Kamakis") are matched by Google against
+ * structured geo/areaServed data, not page text — plain prose doesn't help there. Every
+ * service-area and county page gets this Service schema so each named locality is
+ * machine-readable as somewhere Aquatace actually serves, anchored to its nearest
+ * branch's real coordinates.
+ */
+export function buildServiceAreaSchema(area: ServiceArea) {
+  const nearest = area.nearestBranchSlugs
+    .map((slug) => branches.find((b) => b.slug === slug))
+    .filter((b): b is BranchInfo => Boolean(b));
+  const primary = nearest[0];
+  const areaUrl = `${SITE_URL}/service-areas/${area.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${areaUrl}#service`,
+    name: `Water Refill, Gas Supply & Electronics Delivery in ${area.name}`,
+    serviceType: "Water, gas and electronics delivery",
+    url: areaUrl,
+    provider: { "@type": "Organization", "@id": `${SITE_URL}#organization`, name: business.name },
+    areaServed: [area.name, ...area.nearbyPlaces, ...(area.corridorStops ?? [])].map((name) => ({
+      "@type": "Place",
+      name,
+    })),
+    ...(primary
+      ? {
+          availableAtOrFrom: {
+            "@type": "Place",
+            name: `Aquatace ${primary.name}`,
+            geo: {
+              "@type": "GeoCoordinates",
+              latitude: primary.latitude,
+              longitude: primary.longitude,
+            },
+          },
+        }
+      : {}),
+  };
+}
+
+export function buildCountySchema(county: CountyPage) {
+  const countyBranches = county.branchSlugs
+    .map((slug) => branches.find((b) => b.slug === slug))
+    .filter((b): b is BranchInfo => Boolean(b));
+  const countyUrl = `${SITE_URL}/locations/${county.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${countyUrl}#service`,
+    name: `Water Refill, Gas Supply & Electronics Delivery in ${county.name} County`,
+    serviceType: "Water, gas and electronics delivery",
+    url: countyUrl,
+    provider: { "@type": "Organization", "@id": `${SITE_URL}#organization`, name: business.name },
+    areaServed: [`${county.name} County`, ...county.otherPlaces].map((name) => ({
+      "@type": "Place",
+      name,
+    })),
+    availableAtOrFrom: countyBranches.map((b) => ({
+      "@type": "Place",
+      name: `Aquatace ${b.name}`,
+      geo: { "@type": "GeoCoordinates", latitude: b.latitude, longitude: b.longitude },
+    })),
   };
 }
 

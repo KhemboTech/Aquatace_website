@@ -83,9 +83,9 @@ function BranchDetailPage() {
           areas. {content.areaNote}
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          Looking for water refill, gas supply or electronics delivery in, around, near or within{" "}
-          {branch.name} — or just searching "near me"? Aquatace delivers to {branch.name} and its
-          surrounding estates.
+          Looking for water refill, gas supply or electronics delivery in, at, near, around, within
+          or with {branch.name} — or just searching "near me"? Aquatace delivers to {branch.name}{" "}
+          and its surrounding estates.
         </p>
       </div>
 
